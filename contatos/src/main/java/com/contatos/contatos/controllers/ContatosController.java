@@ -3,8 +3,6 @@ package com.contatos.contatos.controllers;
 import com.contatos.contatos.entity.Contato;
 import com.contatos.contatos.repositories.ContatosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +20,25 @@ public class ContatosController {
         return result;
     }
 
-    @GetMapping(value ="/{name}")
-    public ResponseEntity<List<Contato>> findByName(@RequestParam String name){
-        return new ResponseEntity<List<Contato>>(repository.findByName(name), HttpStatus.OK);
-
+    @GetMapping(value ="/{id}")
+    public Contato findById(@PathVariable long id){
+        Contato result = repository.findById(id).get();
+        return result;
     }
 
+    @PostMapping()
+    public Contato insert(@RequestBody Contato contato){
+        Contato result = repository.save(contato);
+        return result;
+    }
 
+    @DeleteMapping("/{id}")
+    public void deleteEntity(@PathVariable Long id) {
+        repository.deleteById(id);
+    }
 }
+
+
+
 
 
